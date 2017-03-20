@@ -2,7 +2,7 @@
 #include "cv.h"
 #include "stdio.h"
 
-int main( int argc, char **argv )
+int main()
 {
     CvCapture *capture = 0;
     IplImage *frame = 0;

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
     IplImage* img = cvLoadImage( "../../Data/Week1/harold.png", CV_LOAD_IMAGE_COLOR);
     cvNamedWindow( "Hide Your Pain For The 1st Commit", CV_WINDOW_AUTOSIZE );

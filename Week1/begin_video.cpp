@@ -1,7 +1,7 @@
 #include "cv.h"
 #include "highgui.h"
 
-int main(int argc, char* argv[])
+int main()
 {
         cvNamedWindow( "Video Example", CV_WINDOW_AUTOSIZE );
         CvCapture* capture = cvCreateFileCapture( "../../Data/Week1/traffic_chaos.mp4" );
