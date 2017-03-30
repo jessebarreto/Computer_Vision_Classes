@@ -26,34 +26,55 @@
 #include <iostream>
 #include <string>
 
-static void mouseHandler( int event, int x, int y, int flag, void* image_ptr)
+template <class T, class U>
+class Tuple2
 {
-    if( event != cv::EVENT_LBUTTONDOWN ) {
-        return;
+public:
+    Tuple2(T d1, U d2)
+    {
+        data1 = d1;
+        data2 = d2;
     }
+
+    T data1;
+
+    U data2;
+};
+
+
+static void mouseHandler( int event, int x, int y, int flag, void* tuple_ptr)
+{
+    if( event != cv::EVENT_LBUTTONDOWN )
+        return;
 
     cv::Point curPos = cv::Point(x,y);
-    cv::Mat* image = static_cast<cv::Mat*>(image_ptr);
+    bool isGray = static_cast<Tuple2<bool, cv::Mat*>*>(tuple_ptr)->data1;
+    cv::Mat* image = static_cast<Tuple2<bool, cv::Mat*>*>(tuple_ptr)->data2;
+
+
     std::cout << "Mouse Position: " << curPos << "\t";
-    cv::Vec3b pixel = image->at<cv::Vec3b>(curPos);
-    bool isGray = pixel[0] == pixel[1] && pixel[1] == pixel[2];
-    if (!isGray) {
-        std::cout << "Color Image: RGB:" << pixel << std::endl;
+    cv::Vec3b pixel(0,0,0);
+
+    if (isGray) {
+        pixel = image->at<cv::Vec3b>(curPos);
+        std::cout << "Grayscale Image: I: [" << static_cast<int>(pixel[0]) << "]"<< std::endl;
     } else {
-        std::cout << "Grayscale Image: I:" << static_cast<int>(pixel[0]) << std::endl;
+        pixel = image->at<cv::Vec3b>(curPos);
+        std::cout << "Color Image: RGB: [" << static_cast<int>(pixel[2]) << ", "
+                                           << static_cast<int>(pixel[1]) << ", "
+                                           << static_cast<int>(pixel[0]) << "]" << std::endl;
     }
 
-
-    cv::Vec3b pixel_diff;
-    for (int i = 0; i < image->rows; i++) {
-        for (int j = 0; j < image->cols; j++) {
-            cv::absdiff(image->at<cv::Vec3b>(i, j), pixel, pixel_diff);
-            if (pixel_diff[0] < 13 && pixel_diff[1] < 13 && pixel_diff[2] < 13) {
-                image->at<cv::Vec3b>(i, j) = cv::Vec3b(0, 0, 255);
-
-            }
-        }
-    }
+    cv::Mat mask;
+    uchar range = 13;
+    uchar lowb = pixel[0] < range ? 0 : pixel[0] - range;
+    uchar lowg = pixel[1] < range ? 0 : pixel[1] - range;
+    uchar lowr = pixel[2] < range ? 0 : pixel[2] - range;
+    uchar higb = pixel[0] > std::numeric_limits<uchar>::max() - range ? std::numeric_limits<uchar>::max() : pixel[0] + range;
+    uchar higg = pixel[1] > std::numeric_limits<uchar>::max() - range ? std::numeric_limits<uchar>::max() : pixel[1] + range;
+    uchar higr = pixel[2] > std::numeric_limits<uchar>::max() - range ? std::numeric_limits<uchar>::max() : pixel[2] + range;
+    cv::inRange(*image, cv::Scalar(lowb, lowg, lowr), cv::Scalar(higb, higg, higr), mask);
+    image->setTo(cv::Vec3b(0, 0, 255), mask);
     cv::imshow("Projeto 1 - Requisito 2", *image);
 }
 
@@ -61,14 +82,14 @@ int main(int argc, char **argv)
 {
     std::string fileName;
     if (argc < 2) {
-        fileName = "../../Data/CuteDoge.jpg";
+        fileName = "lena.jpg";
         std::cout << "[WARNING] Parameter not found - Opening default image at "
                   << fileName << std::endl;
     } else {
         fileName = argv[1];
     }
 
-    cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
+    cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_ANYCOLOR);
     if (image.empty()) {
         std::cout << "[Error] Could not open image at " << fileName << std::endl;
         return -1;
@@ -78,9 +99,13 @@ int main(int argc, char **argv)
     cv::resizeWindow("Projeto 1 - Requisito 2", 640, 480);
     cv::imshow("Projeto 1 - Requisito 2", image);
 
-    cv::setMouseCallback("Projeto 1 - Requisito 2", mouseHandler, &image);
+    bool isGray = (image.channels() == 1);
+    if (isGray)
+        cv::cvtColor(image, image, CV_GRAY2BGR);
+
+    Tuple2<bool, cv::Mat*> tupla(isGray, &image);
+    cv::setMouseCallback("Projeto 1 - Requisito 2", mouseHandler, &tupla);
 
     cv::waitKey(0);
     return 0;
 }
-

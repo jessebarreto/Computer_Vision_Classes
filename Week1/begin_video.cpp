@@ -4,7 +4,7 @@
 int main()
 {
         cvNamedWindow( "Video Example", CV_WINDOW_AUTOSIZE );
-        CvCapture* capture = cvCreateFileCapture( "../../Data/Week1/traffic_chaos.mp4" );
+        CvCapture* capture = cvCreateFileCapture( "../../Data/viptraffic.mp4" );
         IplImage* frame;
         while(1) {
                 frame = cvQueryFrame( capture );

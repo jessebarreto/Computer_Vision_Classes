@@ -27,6 +27,8 @@
 #include <iostream>
 #include <string>
 
+using namespace cv;
+
 static void mouseHandler( int event, int x, int y, int flag, void* image_ptr)
 {
     if( event != cv::EVENT_LBUTTONDOWN )
@@ -36,11 +38,12 @@ static void mouseHandler( int event, int x, int y, int flag, void* image_ptr)
     cv::Mat* image = static_cast<cv::Mat*>(image_ptr);
     std::cout << "Mouse Position: " << curPos << "\t";
     cv::Vec3b pixel = image->at<cv::Vec3b>(curPos);
-    bool isGray = pixel[0] == pixel[1] && pixel[1] == pixel[2];
-    if (!isGray) {
-        std::cout << "Color Image: RGB:" << pixel << std::endl;
+    if (image->channels() == 1) {
+        std::cout << "Grayscale Image: I: [" << static_cast<int>(pixel[0]) << "]"<< std::endl;
     } else {
-        std::cout << "Grayscale Image: I:" << static_cast<int>(pixel[0]) << std::endl;
+        std::cout << "Color Image: RGB: [" << static_cast<int>(pixel[2]) << ", "
+                                           << static_cast<int>(pixel[1]) << ", "
+                                           << static_cast<int>(pixel[0]) << "] " << std::endl;
     }
 }
 
@@ -48,14 +51,14 @@ int main(int argc, char **argv)
 {
     std::string fileName;
     if (argc < 2) {
-        fileName = "../../Data/CuteDoge.jpg";
+        fileName = "lena.jpg";
         std::cout << "[WARNING] Parameter not found - Opening default image at "
                   << fileName << std::endl;
     } else {
         fileName = argv[1];
     }
 
-    cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
+    cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_ANYCOLOR);
     if (image.empty()) {
         std::cout << "[Error] Could not open image at " << fileName << std::endl;
         return -1;
@@ -68,5 +71,6 @@ int main(int argc, char **argv)
     cv::setMouseCallback("Projeto 1 - Requisito 1", mouseHandler, &image);
 
     cv::waitKey(0);
+    cv::destroyAllWindows();
     return 0;
 }

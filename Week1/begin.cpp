@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    IplImage* img = cvLoadImage( "../../Data/Week1/harold.png", CV_LOAD_IMAGE_COLOR);
+    IplImage* img = cvLoadImage( "../../Data/harold.png", CV_LOAD_IMAGE_COLOR);
     cvNamedWindow( "Hide Your Pain For The 1st Commit", CV_WINDOW_AUTOSIZE );
     cvShowImage( "Hide Your Pain For The 1st Commit", img );
     cvWaitKey(0);
