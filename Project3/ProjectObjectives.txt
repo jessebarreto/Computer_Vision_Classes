@@ -1,0 +1,64 @@
+Roteiro Projeto Demonstrativo 3 - Multiplas Vistas
+
+Objetivo
+Esta atividade tem como objetivo principal a exploração e desenvolvimento de algoritmos para extração de mapas de profundidade a partir de pares estéreo de imagens.
+Procedimentos
+Requisito 1 - Assumindo os 2(dois) pares de imagens capturadas por uma câmera estéreo calibrada e retificada (link no item da atividade no moodle da disciplina), onde os índices L e R indicam as imagens da esquerda e direita respectivamente, assumindo que estas imagens estejam perfeitamente alinhadas em paralelo, com uma distância focal definida f = 25mm (medida hipotética) e baseline igual 120mm (também hipotética), e que o as coordenadas do mundo X, Y são coincidentes com as coordenadas da imagem x, y em seu respectivo lado (direito ou esquerdo) realize as seguintes tarefas: 
+
+1 - Desenvolva um algoritmo, usando OpenCV que para cada par de pontos x,y na imagem do lado esquerdo, encontre o ponto respectivo par de pontos x,y na imagem da direita. Utilize a ideia básica do algoritmo apresentado em sala de aula, onde a função de comparação seja a função SAD - http://en.wikipedia.org/wiki/Sum_of_absolute_differences, onde a dimensão da janela para template W seja definida pelo usuário no momento do início do cálculo. Observe que não haverá correlação para todos os pontos das imagens, desta feita, para os casos onde o ponto da esquerda não tenha correspondência com a da imagem da direita, realize uma organização de forma que ele seja identificado e possa ser descartado nos cálculos futuros da profundidade, no próximo requisito. Recomendo a utilização em uma estrutura de dados (ex.: vetor/matriz) para armazenar a posição do ponto na imagem da esquerda e na imagem da direita para auxiliar no processo de armazenagem de dados e evitar "estouros" de memória.
+
+2 - Para todos os pontos que existem correspondência entre as imagens da direita e da esquerda, assumindo as condições anteriormente expostas, calcule para cada um dos pontos os valores para X, Y e Z do mundo, seguindo as equações apresentadas em sala de aula (slide 14).
+
+3 - Para todos os pontos calculados, crie uma imagem resultante (obs.: provavelmente de dimensões diferentes do que as imagens originais) com as informações de profundidade obtidas (valores de Z), normalizando os valores mínimos e máximos obtidos entre 0 e 255, salvando a esta imagem de profundidade em um arquivo à parte e armazenado com o nome da imagem de origem, acrescentando ao final do nome a palavra "depthimage" ao final, para identificação após à execução do código.
+
+Requisito 2 - Descreva os resultados alcançados no relatório. Discuta em relatório os resultados obtidos, propondo se possível, melhorias na implementação realizada. Avalia as características da imagem de profundidade obtida e a relação existente entre o tamanho da janela de busca (W) e a precisão esperada (i.e. observe o contorno dos objetos na cena) deste mapa de profundidade resultante.
+
+-----------------------------------------------------------------------------------------------
+
+Instruções para Elaboração do Relatório
+O relatório deve demonstrar que a respectiva atividade de laboratório foi realizada com sucesso e que os princípios subjacentes
+foram compreendidos.
+
+
+O relatório da atividade de projeto demonstrativo é o documento gerado a partir do trabalho realizado seguindo as orientações
+exigidas na metodologia para se atender ao requisito solicitado. Este deve espelhar todo o trabalho desenvolvido nos processos
+de obtenção dos dados e sua análise. Apresentamos a seguir uma recomendação de organização para o relatório da atividade
+de laboratório. Deverá conter as seguintes partes:
+
+
+i. Identificação: Possuir a indicação clara do título do projeto demonstrativo abordado, a data da sua realização, a identificação
+da disciplina/turma, nome do autor, e quando houver, número de matrícula e email.
+
+ii. Objetivos: Apresentar de forma clara, porém sucinta, os objetivos do projeto demonstrativo.
+
+iii. Introdução: Deve conter a teoria necessária à realização da atividade do projeto demonstrativo proposto. Utilize sempre fontes
+bibliográficas confiáveis (livros e artigos científicos), evitando utilizar única e exclusivamente fontes de baixa
+confiabilidade (Wikipedia, Stackoverflow,...).
+
+iv. Materiais e Metodologia empregada: É dedicada à apresentação dos materiais e equipamentos, descrição do arranjo
+experimental e uma exposição minuciosa do procedimento do projeto demonstrativo realmente adotado.
+
+v. Resultados: Nesta parte são apresentados os resultados das implementações efetuadas, na forma de tabelas e gráficos,
+sem que se esqueça de identificar em cada caso os parâmetros utilizados.
+
+vi. Discussão e Conclusões: A discussão visa comparar os resultados obtidos e os previstos pela teoria. Deve se justificar
+eventuais discrepâncias observadas. As conclusões resumem a atividade de laboratório e destacam os principais resultados
+e aplicações dos conceitos vistos.
+
+vii. Bibliografia: Citar as fontes consultadas, respeitando as regras de apresentação de bibliografia (autor, título, editora, edição,
+ano, página de início e fim).
+
+O relatório do laboratório deverá ser confeccionado em editor eletrônico de textos com no mínimo 2(duas páginas) e no máximo
+4(quatro) páginas, utilizando obrigatoriamente o padrão de formatação descrito no arquivo de exemplo disponibilizado aqui.
+Está disponibilizado um padrão para editores científicos LATEX (arquivo extensão *.zip contendo arquivo de exemplo do
+uso do pacote), cabendo ao aluno a escolha de qual editor/IDE será utilizado. Não serão permitidos relatórios confeccionados
+ em outro editor eletrônico de texto, ou usando um modelo diferente do padrão LATEX disponibilizado.
+
+Instruções para Submissão da atividade de Projeto Demonstrativo
+Esta tarefa consiste na submissão de um arquivo único Zipado, contendo um arquivo PDF do relatório elaborado e também
+o código fonte desenvolvido, obrigatoriamente em C/C++ ou Python (2.7), e um arquivo com diretivas de compilação em Linux.
+
+O código pode ser desenvolvido em ambiente Windows, mas o código submetido deverá ser obrigatoriamente compilável
+(para permitir a avaliação pelo professor/tutores) em ambiente Linux. Para referência, o ambiente Linux que será utilizado
+para a correção das atividades é Linux Mint Cinnamon 32Bits utilizando a versão 2.4.13 do OpenCV. Reforçando que esta
+ atividade é INDIVIDUAL.

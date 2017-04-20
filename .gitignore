@@ -30,6 +30,7 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 Thumbs.db
+CMakeLists.txt.user
 *.res
 *.rc
 /.qmake.cache
