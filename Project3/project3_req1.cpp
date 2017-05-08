@@ -8,8 +8,8 @@
  * Esta atividade tem como objetivo principal a exploração e desenvolvimento de algoritmos para extração de mapas de
  * profundidade a partir de pares estéreo de imagens.
  *
- * Procedimentos
- * Requisito 1 - Assumindo os 2(dois) pares de imagens capturadas por uma câmera estéreo calibrada e retificada
+ * Requisito 1
+ * Assumindo os 2(dois) pares de imagens capturadas por uma câmera estéreo calibrada e retificada
  * (link no item da atividade no moodle da disciplina), onde os índices L e R indicam as imagens da esquerda e direita
  * respectivamente, assumindo que estas imagens estejam perfeitamente alinhadas em paralelo, com uma distância focal
  * definida f = 25mm (medida hipotética) e baseline igual 120mm (também hipotética),
@@ -46,13 +46,75 @@
  ******************************************************************************************
 */
 
+#include <opencv2/opencv.hpp>
+#include <sstream>
+
 #include "project3.h"
 
 int main(int argc, char** argv)
 {
 
+    int windowTemplateSize = 5;
+    int disparitiesNumber = 128;
+    std::string fileNameL, fileNameR;
+    if (argc < 3) {
+        fileNameL = DEFAULT_IMG_FILE_R;
+        fileNameR = DEFAULT_IMG_FILE_L;
+        std::cout << "[WARNING] Parameter not found - Opening default images at "
+                  << fileNameL  << " " << fileNameR << std::endl;
+    } else {
+        fileNameL = argv[1];
+        fileNameR = argv[2];
+    }
+
+    // Open both images
+    cv::Mat imageLeft = cv::imread(fileNameL, CV_LOAD_IMAGE_ANYCOLOR);
+    cv::Mat imageRight = cv::imread(fileNameR, CV_LOAD_IMAGE_ANYCOLOR);
+    if (imageLeft.empty() || imageRight.empty()) {
+        std::cout << "[Error] Could not open images at "
+                  << fileNameL << " " << fileNameR <<  std::endl;
+        return -1;
+    }
+
+    // Set windows
+    cv::namedWindow(WINDOW_NAME_L, CV_WINDOW_NORMAL);
+    cv::imshow(WINDOW_NAME_L, imageLeft);
+    cv::namedWindow(WINDOW_NAME_R, CV_WINDOW_NORMAL);
+    cv::imshow(WINDOW_NAME_R, imageRight);
+
+
+    cv::namedWindow(WINDOW_NAME_D, CV_WINDOW_NORMAL);
+    cv::createTrackbar("TemplateSize", WINDOW_NAME_D, &windowTemplateSize, 51 ,NULL);
+
+    // Cria o object do project
+    Project3 projeto(&imageLeft, &imageRight, windowTemplateSize, disparitiesNumber);
+
+    std::stringstream ss;
+    std::vector<int> compression_params;
+    compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+    compression_params.push_back(9);
+
+    while (true)
+    {
+        // Calcula o mapa de profundidade
+        projeto.calculateDepthMap();
+        cv::Mat depthMap =  projeto.getDepthImage();
+
+        // Mostra e Salva a Imagem
+        cv::imshow(WINDOW_NAME_D, depthMap);
+        ss.str("");
+        ss << "depthMap" << projeto.getWindowSize() << ".png";
+        std::string fileName = ss.str();
+        cv::imwrite(fileName, depthMap, compression_params);
+
+        // Wait esc to leave program
+        char c = cv::waitKey(0); // Any Button to continue
+        if (c == char(27)) {
+            break;
+        }
+
+        projeto.setMembers(windowTemplateSize, disparitiesNumber);
+    }
+
     return 0;
 }
-
-
-
