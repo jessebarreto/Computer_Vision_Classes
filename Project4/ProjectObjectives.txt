@@ -1,0 +1,69 @@
+
+Roteiro Projeto Demonstrativo 4 - Detecção de Bordas
+
+Objetivo
+Esta atividade tem como objetivo principal a exploração e desenvolvimento de algoritmos para análise e comparativo do processo de detecção de bordas em imagens. 
+
+Neste caso serão avaliados o comportamento de três técnicas de detecção de bordas, todas pertencentes à biblioteca OpenCV: Sobel (http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/sobel_derivatives/sobel_derivatives.html), Canny (http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/canny_detector/canny_detector.html) e Laplaciano (http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/laplace_operator/laplace_operator.html).
+Procedimentos
+Requisito 1 - A partir da referência de documentação da biblioteca OpenCV (vide os links para cada tipo de detector de bordas proposto acima) desenvolva um algiritmo que a partir de uma imagem de entrada realize o cálculo dos três tipos de detectores de bordas propostos, gerando 3(três) imagens binárias de saída (caso o descritor não forneça diretamente uma imagem binarizada aplique uma técnica de binarização, por exemplo algoritmo de Otsu - http://docs.opencv.org/2.4/doc/tutorials/imgproc/threshold/threshold.html) para cada uma das saídas de cada detector de borda e salve as imagens resultantes (binárias) em disco.
+
+Requisito 2 - Aplique o código desenvolvido no Requisito 1 para as imagens contidas no arquivo compactado edges-images/src (Obs.: As imagens estão em formato .gif e é fortemente recomendado a conversão para .jpg), lembrando de salvar as imagens binarizadas geradas em disco.
+
+Requisito 3 - Para cada imagem da pasta ./src existe um arquivo de ground truth (GT) (mais info: http://en.wikipedia.org/wiki/Ground_truth) na pasta ./gt. Estes arquivos da pasta ./gt possuem a informação de referência GT para testar se o detector de borda está de acordo com a borda real da imagem de entrada (os números no nome das imagens da pasta src são os mesmos da pasta gt com a adição dos caracteres "gt"). As imagens da pasta ./gt são imagens .gif, então como no item do Requisito 1 e 2, desenvolva um código em OpenCV que abra (ou transforme) as imagens da pasta ./gt como imagens binárias. 
+
+Requisito 4 - Para cada imagem de saída e para cada um dos detectores de borda propostos e com a imagem de GT fornecida (da mesma imagem), realize o cálculo de um "score" para comparar os resultados obtidos pelo processo de detecção de borda (assumindo a borda com o valor de pixel 0(zero)) desenvolvido, a saber:
+
+Para cada pixel da imagem binarizada (ImBinSaida) de saída usando um detector de borda X (DBx) crie um contador (DBxContador) em que quando o valor do pixel da imagem binarizada de GT (ImBinGT) for igual a da imagem de entrada binarizada (ImBinSaida) denominado de DBxContadorHit, e outro contador denominado DBxContadorMiss quando o valor do pixel destas duas imagens forem diferentes.
+Após realizado para todos os pixels da imagem em questão, calcule a precisão (PrecImDBx) para imagem analisa e para cada tipo de detector de borda, conforme as equações a seguir:
+PrecImDBx = DBxContadorHit / (DBxContadorHit + DBxContadorMiss)
+
+- Realize este cálculo para cada imagem da pasta ./src, usando todos os tipos de detectores de bordas solicitados e sua respectiva imagem de GT da pasta ./gt e monte a seguinte tabela comparativa:
+
+
+Precisão
+
+
+
+
+Imagens
+
+
+46	140	208	212	217	221
+Sobel						
+Canny						
+Laplaciano						
+
+Observação Importante: para evitarmos problemas de dimensionamento e comparação equivocadas, os dados da tabela deverão estar em valores percentuais com o valor da imagem utilizada (vide o número da imagem como referência).
+
+Requisito 5 - Descreva os resultados alcançados no relatório. Discuta em relatório os resultados obtidos, propondo se possível, melhorias na implementação realizada. Quais foram os detectores de borda que, comparados com o GT, produziram a maior precisão no processo de detecção de bordas? Quais obtiveram os piores resultados, em relação à precisão? Discuta sucintamente os resultados obtidos.
+
+-----------------------------------------------------------------------------------------------
+
+Instruções para Elaboração do Relatório
+O relatório deve demonstrar que a respectiva atividade de laboratório foi realizada com sucesso e que os princípios subjacentes foram compreendidos.
+
+
+O relatório da atividade de projeto demonstrativo é o documento gerado a partir do trabalho realizado seguindo as orientações exigidas na metodologia para se atender ao requisito solicitado. Este deve espelhar todo o trabalho desenvolvido nos processos de obtenção dos dados e sua análise. Apresentamos a seguir uma recomendação de organização para o relatório da atividade de laboratório. Deverá conter as seguintes partes:
+
+
+i. Identificação: Possuir a indicação clara do título do projeto demonstrativo abordado, a data da sua realização, a identificação da disciplina/turma, nome do autor, e quando houver, número de matrícula e email.
+
+ii. Objetivos: Apresentar de forma clara, porém sucinta, os objetivos do projeto demonstrativo.
+
+iii. Introdução: Deve conter a teoria necessária à realização da atividade do projeto demonstrativo proposto. Utilize sempre fontes bibliográficas confiáveis (livros e artigos científicos), evitando utilizar única e exclusivamente fontes de baixa confiabilidade (Wikipedia, Stackoverflow,...).
+
+iv. Materiais e Metodologia empregada: É dedicada à apresentação dos materiais e equipamentos, descrição do arranjo experimental e uma exposição minuciosa do procedimento do projeto demonstrativo realmente adotado.
+
+v. Resultados: Nesta parte são apresentados os resultados das implementações efetuadas, na forma de tabelas e gráficos, sem que se esqueça de identificar em cada caso os parâmetros utilizados.
+
+vi. Discussão e Conclusões: A discussão visa comparar os resultados obtidos e os previstos pela teoria. Deve se justificar eventuais discrepâncias observadas. As conclusões resumem a atividade de laboratório e destacam os principais resultados e aplicações dos conceitos vistos.
+
+vii. Bibliografia: Citar as fontes consultadas, respeitando as regras de apresentação de bibliografia (autor, título, editora, edição, ano, página de início e fim).
+
+O relatório do laboratório deverá ser confeccionado em editor eletrônico de textos com no mínimo 2(duas páginas) e no máximo 4(quatro) páginas, utilizando obrigatoriamente o padrão de formatação descrito no arquivo de exemplo disponibilizado aqui. Está disponibilizado um padrão para editores científicos LATEX (arquivo extensão *.zip contendo arquivo de exemplo do uso do pacote), cabendo ao aluno a escolha de qual editor/IDE será utilizado. Não serão permitidos relatórios confeccionados em outro editor eletrônico de texto, ou usando um modelo diferente do padrão LATEX disponibilizado.
+
+Instruções para Submissão da atividade de Projeto Demonstrativo
+Esta tarefa consiste na submissão de um arquivo único Zipado, contendo um arquivo PDF do relatório elaborado e também o código fonte desenvolvido, obrigatoriamente em C/C++ ou Python (2.7), e um arquivo com diretivas de compilação em Linux. 
+
+O código pode ser desenvolvido em ambiente Windows, mas o código submetido deverá ser obrigatoriamente compilável (para permitir a avaliação pelo professor/tutores) em ambiente Linux. Para referência, o ambiente Linux que será utilizado para a correção das atividades é Linux Mint Cinnamon 32Bits utilizando a versão 2.4.13 do OpenCV. Reforçando que esta atividade é INDIVIDUAL.
