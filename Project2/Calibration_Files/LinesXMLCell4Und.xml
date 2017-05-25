@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<Distance>300</Distance>
+<PointsInitAsMatrix type_id="opencv-matrix">
+  <rows>2</rows>
+  <cols>3</cols>
+  <dt>f</dt>
+  <data>
+    189. 187. 187. 256. 269. 254.</data></PointsInitAsMatrix>
+<PointsEndAsMatrix type_id="opencv-matrix">
+  <rows>2</rows>
+  <cols>3</cols>
+  <dt>f</dt>
+  <data>
+    187. 187. 188. 269. 254. 267.</data></PointsEndAsMatrix>
+<LengthAsMatrix type_id="opencv-matrix">
+  <rows>1</rows>
+  <cols>3</cols>
+  <dt>f</dt>
+  <data>
+    1.31529465e+01 15. 1.30384045e+01</data></LengthAsMatrix>
+</opencv_storage>

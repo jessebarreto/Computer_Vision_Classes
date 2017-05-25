@@ -23,7 +23,7 @@ class Project5
     // Gray Image
     cv::Mat _grayImage;
 
-    // Gray Level Co-ocurrence Matrix
+    // Normalized Gray Level Co-ocurrence Matrix
     cv::Mat _0degreesGLCM, _45degreesGLCM;
 
     // Calculate GLCM given the offset

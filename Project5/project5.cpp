@@ -1,19 +1,13 @@
 #include "project5.h"
 
 Project5::Project5() :
-    _defaultImageFileName("fruits.jpg"),
+    _defaultImageFileName("zebra.jpg"),
     _sourceWindowName("Source Image"),
     _sourceGrayWindowName("Gray Image"),
     _GLCM0WindowName("GLCM 0 degrees Image"),
     _GLCM45WindowName("GLCM 45 degrees Image"),
-    _directionsOffset{cv::Point2i(1, 0), // 0 degrees
-                      cv::Point2i(1, 1), // 45 degrees
-                      cv::Point2i(0, 1), // 90 degrees
-                      cv::Point2i(-1, 1), // 135 degrees
-                      cv::Point2i(-1, 0), // 180 degrees
-                      cv::Point2i(-1, -1), // 225 degrees
-                      cv::Point2i(0, -1), // 270 degrees
-                      cv::Point2i(1, -1)} // 315 degrees
+    _directionsOffset{cv::Point2i(0, 1), // 0 degrees
+                      cv::Point2i(-1, 1)} // 45 degrees
 {
 
 }
@@ -41,25 +35,6 @@ const std::string &Project5::getWindowsNames(unsigned windowName)
 const cv::Point2i &Project5::getOffsetDirections(int angle)
 {
     switch (angle) {
-    case -45:
-    case 315:
-        return _directionsOffset[7];
-    case -90:
-    case 270:
-        return _directionsOffset[6];
-    case -135:
-    case 225:
-        return _directionsOffset[5];
-    case -180:
-    case 180:
-        return _directionsOffset[4];
-    case -225:
-    case 135:
-        return _directionsOffset[3];
-    case -270:
-    case 90:
-        return _directionsOffset[2];
-    case -315:
     case 45:
         return _directionsOffset[1];
     case 0:
@@ -99,7 +74,7 @@ void Project5::_calculateGLCM(int distance, int angle, cv::Mat &GLCMResult)
     cv::Point2i offset = getOffsetDirections(angle);
 
     // Create an empty GLCM Matrix
-    GLCMResult = cv::Mat::zeros(256, 256, CV_32SC1);
+    cv::Mat GLCM = cv::Mat::zeros(256, 256, CV_32FC1);
 
 
     // Offsets in rows and cols
@@ -108,6 +83,9 @@ void Project5::_calculateGLCM(int distance, int angle, cv::Mat &GLCMResult)
 
     // Pixels
     int pixelRow, pixelCol;
+
+    // Number of Image elements
+    unsigned pixels = 0;
 
     // Fill the GLCM Matrix
     for (int row = 0; row < _grayImage.rows; row++) {
@@ -123,9 +101,15 @@ void Project5::_calculateGLCM(int distance, int angle, cv::Mat &GLCMResult)
             pixelCol = static_cast<int>(_grayImage.at<uint8_t>(row + xoffset, col + yoffset));
 
             // Count this color in the GLCM matrix
-            GLCMResult.at<int32_t>(pixelRow, pixelCol)++;
+            GLCM.at<float>(pixelRow, pixelCol)++;
+
+            // Count number of pixels
+            pixels++;
         }
     }
+
+    // Normalize
+    GLCMResult = GLCM / static_cast<float>(pixels);
 }
 
 void Project5::calculateGLCMs()
