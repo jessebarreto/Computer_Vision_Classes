@@ -67,8 +67,8 @@ int main(int argc, char **argv)
     projeto.calculateAndSaveGLCMs();
 
     // Shows GLCMs as images
-    cv::imshow(projeto.getWindowsNames(2), projeto.getGLCM0());
-    cv::imshow(projeto.getWindowsNames(3), projeto.getGLCM45());
+    cv::imshow(projeto.getWindowsNames(2), projeto.getRawGLCM0());
+    cv::imshow(projeto.getWindowsNames(3), projeto.getRawGLCM45());
 
     // Wait any key to leave the program.
     cv::waitKey(0);
