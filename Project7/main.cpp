@@ -4,7 +4,7 @@
  * Departamento de Ciência da Computação – CIC
  * Visao Computacional – Professor Fabio Vidal
  *
- * Projeto 5 – Objetivo
+ * Projeto 7 – Objetivo
  * Esta atividade tem como objetivo principal o desenvolvimento de melhorias para a detecção de movimento em imagens
  * sequenciais utilizando fluxo óptico.
  *
@@ -31,11 +31,18 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv_modules.hpp>
+#include <opencv2/legacy/legacy.hpp>
 #include <iostream>
 
+#include "project7.h"
+
 #define DEFAULT_VIDEO_FILE "Data/highwayI_raw.avi"
+#define VIDEO_SPEED_RATE 0.5
+#define OPTICAL_FLOW_ALPHA 1.0
+
 
 #define ORIGINAL_WIN_NAME "Original Video"
+#define FLOW_WIN_NAME "Optical Flow Video"
 
 int main(int argc, char **argv)
 {
@@ -56,21 +63,54 @@ int main(int argc, char **argv)
 
     // Run Video
     cv::namedWindow(ORIGINAL_WIN_NAME, CV_WINDOW_NORMAL);
+    cv::namedWindow(FLOW_WIN_NAME, CV_WINDOW_NORMAL);
     cv::resizeWindow(ORIGINAL_WIN_NAME, 640, 480);
-    cv::Mat *frame = new cv::Mat();
+    cv::resizeWindow(FLOW_WIN_NAME, 640, 480);
+
+    // Flag to show indicating it has started
+    bool isInitializing = true;
+
+    // Collection of Frames
+    cv::Mat frame; // Current Frame
+    cv::Mat grayFrame; // Current Frame in Grayscale
+    cv::Mat previousFrame; // Previous Frame in Grayscale
+    cv::Mat totalFlow; // Flow values at X,Y Directions and its variances
+    cv::Mat flowX, flowY; // Flow values at X and Y separated
+    cv::Mat flowFrame;
+
     for (;;) {
-        video >> *frame;
-        if (frame->empty()) {
+        // Read the frames from video
+        if (isInitializing) {
+            isInitializing = false;
+            video >> previousFrame;
+            cv::cvtColor(previousFrame, previousFrame, CV_BGR2GRAY, CV_8UC1);
+            video >> frame;
+            cv::cvtColor(frame, grayFrame, CV_BGR2GRAY, CV_8UC1);
+        } else {
+            previousFrame = grayFrame;
+            video >> frame;
+            cv::cvtColor(frame, grayFrame, CV_BGR2GRAY, CV_8UC1);
+        }
+
+        // Loop the video
+        if (frame.empty()) {
             video.set(CV_CAP_PROP_POS_FRAMES, 0);
+            isInitializing = true;
             continue;
         }
 
-        if (cv::waitKey(30) >= 0) {
+        // Exit if user press something
+        if (cv::waitKey(VIDEO_SPEED_RATE * 30) >= 0) {
             break;
         }
 
-        cv::imshow(ORIGINAL_WIN_NAME, *frame);
+        getMotionMap(flowFrame, previousFrame, grayFrame, OPTICAL_FLOW_ALPHA, &flowX, &flowY, &totalFlow);
+
+        cv::imshow(ORIGINAL_WIN_NAME, frame);
+        cv::imshow(FLOW_WIN_NAME, flowFrame);
     }
 
 	return 0;
 }
+
+
