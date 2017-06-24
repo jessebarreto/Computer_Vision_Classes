@@ -1,0 +1,40 @@
+Roteiro Projeto Demonstrativo 7 - Segmentação de Movimento utilizando Fluxo Ótico
+
+Objetivo
+Esta atividade tem como objetivo principal o desenvolvimento de melhorias para a detecção de movimento em imagens sequenciais utilizando fluxo óptico.
+Procedimentos
+1) A partir dos três arquivos de vídeo disponibilizados na pasta "videos-transito" e utilizando o processo de segmentação de movimento descrito no artigo "Motion segmentation in sequential images based on the differential optical flow" (disponibilizado na seção da tarefa, na página principal do Moodle da disciplina) implemente a metodologia proposta e realize a segmentação de movimento seguindo a técnica apresentada neste referido artigo. 
+
+2) Compare os resultados (melhorias ou pioras) desta versão desenvolvida em relação à técnica clássica de Background Subtraction (http://docs.opencv.org/trunk/d1/dc5/tutorial_background_subtraction.html). Realize as análises sob o ponto de vista da precisão do processo de detecção de veículos, bem como argumentando sobre a sua precisão na detecção, tempo de execução e acurácia.
+
+3) Descreva os resultados alcançados no relatório.
+
+-----------------------------------------------------------------------------------------------
+
+Instruções para Elaboração do Relatório
+O relatório deve demonstrar que a respectiva atividade de laboratório foi realizada com sucesso e que os princípios subjacentes foram compreendidos.
+
+
+O relatório da atividade de projeto demonstrativo é o documento gerado a partir do trabalho realizado seguindo as orientações exigidas na metodologia para se atender ao requisito solicitado. Este deve espelhar todo o trabalho desenvolvido nos processos de obtenção dos dados e sua análise. Apresentamos a seguir uma recomendação de organização para o relatório da atividade de laboratório. Deverá conter as seguintes partes:
+
+
+i. Identificação: Possuir a indicação clara do título do projeto demonstrativo abordado, a data da sua realização, a identificação da disciplina/turma, nome do autor, e quando houver, número de matrícula e email.
+
+ii. Objetivos: Apresentar de forma clara, porém sucinta, os objetivos do projeto demonstrativo.
+
+iii. Introdução: Deve conter a teoria necessária à realização da atividade do projeto demonstrativo proposto. Utilize sempre fontes bibliográficas confiáveis (livros e artigos científicos), evitando utilizar única e exclusivamente fontes de baixa confiabilidade (Wikipedia, Stackoverflow,...).
+
+iv. Materiais e Metodologia empregada: É dedicada à apresentação dos materiais e equipamentos, descrição do arranjo experimental e uma exposição minuciosa do procedimento do projeto demonstrativo realmente adotado.
+
+v. Resultados: Nesta parte são apresentados os resultados das implementações efetuadas, na forma de tabelas e gráficos, sem que se esqueça de identificar em cada caso os parâmetros utilizados.
+
+vi. Discussão e Conclusões: A discussão visa comparar os resultados obtidos e os previstos pela teoria. Deve se justificar eventuais discrepâncias observadas. As conclusões resumem a atividade de laboratório e destacam os principais resultados e aplicações dos conceitos vistos.
+
+vii. Bibliografia: Citar as fontes consultadas, respeitando as regras de apresentação de bibliografia (autor, título, editora, edição, ano, página de início e fim).
+
+O relatório do laboratório deverá ser confeccionado em editor eletrônico de textos com no mínimo 2(duas páginas) e no máximo 4(quatro) páginas, utilizando obrigatoriamente o padrão de formatação descrito no arquivo de exemplo disponibilizado aqui. Está disponibilizado um padrão para editores científicos LATEX (arquivo extensão *.zip contendo arquivo de exemplo do uso do pacote), cabendo ao aluno a escolha de qual editor/IDE será utilizado. Não serão permitidos relatórios confeccionados em outro editor eletrônico de texto, ou usando um modelo diferente do padrão LATEX disponibilizado.
+
+Instruções para Submissão da atividade de Projeto Demonstrativo
+Esta tarefa consiste na submissão de um arquivo único Zipado, contendo um arquivo PDF do relatório elaborado e também o código fonte desenvolvido, obrigatoriamente em C/C++ ou Python (2.7), e um arquivo com diretivas de compilação em Linux. 
+
+O código pode ser desenvolvido em ambiente Windows, mas o código submetido deverá ser obrigatoriamente compilável (para permitir a avaliação pelo professor/tutores) em ambiente Linux. Para referência, o ambiente Linux que será utilizado para a correção das atividades é Linux Mint Cinnamon 32Bits utilizando a versão 2.4.13 do OpenCV. Reforçando que esta atividade é INDIVIDUAL.
